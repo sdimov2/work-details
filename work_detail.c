@@ -290,58 +290,54 @@ void main()
 		int dayofyear = 0;
 		
 		// base case: are we done?
-		if (Weeklydetails[detailcount*7] != NULL) {
+		if ( Weeklydetails[detailcount*7] != 0) {
 			printf("\n");
 			return;
 		}
-		if (Weeklydetails[detailcount*i+detailcount] != NULL) {
+		if (Weeklydetails[detailcount*i+detailcount] !=0) {
 			i++;
 			j=0;
 			printf(".");
 		}
 		// try something
 		// check if valid
-		for (l=0;l<detailcount;l++){
-			if (members[k].restrictions[i+l*i]==1) {
-				// undo and replace
-				recurse(i,j,k+1,detailcount, details, members, Weeklydetails);
-			}
-			strcpy(Weeklydetails[i+j*i], members[k].name);
-			k++;
-			j++;
-			
-		}
 		
+			if (members[k].restrictions[i+j*i]==0 && j < detailcount) {
+				strcpy(Weeklydetails[i+j*i], members[k].name);
+				k++;
+				j++;
+			}
+			// undo and replace
+		recurse(i,j,k+1,detailcount, details, members, Weeklydetails);
+	
 		//strcpy(Weeklydetails[i+j*i], members[rand()%membercount].name);
 		//printf("%s ", Weeklydetails[i+j*i]);
 	}
 	
 	// determine restrictions: the floor rule
-	
+	char* daysofweek[7] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 	for (k=0;k<membercount;k++) {
 		printf("\n%s: ", members[k].name);
 		for (i=0; i<7; i++){
+			printf("\n%s:", daysofweek[i]);
 			for (j=0; j<detailcount; j++){
 				//check for floor mismatches
-				if (!(details[j].floor != 0 && details[j].floor != -1 && details[j].floor != 1 || details[j].floor != members[k].floor )) {
+				if (details[j].floor != 0 && details[j].floor != -1 && details[j].floor != 1 && details[j].floor != members[k].floor ) {
 					members[k].restrictions[i+j*i] = 1;
-					printf("%d,", members[k].restrictions[i+j*i]);
+					//printf("%s, %d,",details[j].name, members[k].restrictions[i+j*i]);
 				}
 				else {
-					
-					
-					
-					
 					
 					
 					// this will override the input from the roster
 					members[k].restrictions[i+j*i] = 0;
 				}
+				printf("%d,", members[k].restrictions[i+j*i]);
 			}
 		}
 	}
-	printf("calculating work details according to algorithmn");
-	recurse(0,0,0,detailcount, details, members, Weeklydetails);
+	printf("\ncalculating work details according to algorithmn");
+	//recurse(0,0,0,detailcount, details, members, Weeklydetails);
 	
 	void Printweek ( char** Weeklydetails, struct Detail* details) {
 		FILE* output = fopen(WORKDETAILSOUT, "w");
@@ -399,7 +395,7 @@ void main()
 	}
 	*/
 	free(details);
-	printf("%s created!\n", WORKDETAILSOUT);
+	printf("\n%s created!\n", WORKDETAILSOUT);
 	 printf("Do your work details!\n");
 	
    } 
