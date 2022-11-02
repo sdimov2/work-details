@@ -1,5 +1,5 @@
 /*
-author: Steven Dimov of Sigma Phi Delta Delta Chapter
+author: Steven Dimov of Sigma Phi Delta, Delta Chapter
 I don't always do my work detail
 this is my source code, bitch.
 */
@@ -290,7 +290,9 @@ void main()
 		int dayofyear = 0;
 		
 		// base case: are we done?
-		if ( Weeklydetails[detailcount*7] != 0) {
+		if ( i == 6 && j == detailcount-1
+		//Weeklydetails[detailcount*7-1] != NULL
+		) {
 			printf("\n");
 			return;
 		}
@@ -327,8 +329,6 @@ void main()
 					//printf("%s, %d,",details[j].name, members[k].restrictions[i+j*i]);
 				}
 				else {
-					
-					
 					// this will override the input from the roster
 					members[k].restrictions[i+j*i] = 0;
 				}
@@ -337,7 +337,7 @@ void main()
 		}
 	}
 	printf("\ncalculating work details according to algorithmn");
-	//recurse(0,0,0,detailcount, details, members, Weeklydetails);
+	recurse(0,0,0,detailcount, details, members, Weeklydetails);
 	
 	void Printweek ( char** Weeklydetails, struct Detail* details) {
 		FILE* output = fopen(WORKDETAILSOUT, "w");
